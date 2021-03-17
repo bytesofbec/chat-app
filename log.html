@@ -1,0 +1,38 @@
+<div id="chatbox"><?php
+if(file_exists("log.html") && filesize("log.html") > 0){
+     
+    $contents = file_get_contents("log.html");         
+    echo $contents;
+}
+?></div>
+
+<script>
+  //Load the file containing the chat log
+function loadLog(){     
+    $.ajax({
+        url: "log.html",
+        cache: false,
+        success: function(html){        
+            $("#chatbox").html(html); //Insert chat log into the #chatbox div               
+        },
+    });
+}
+
+//Load the file containing the chat log
+function loadLog(){     
+    var oldscrollHeight = $("#chatbox")[0].scrollHeight - 20; //Scroll height before the request
+    $.ajax({
+        url: "log.html",
+        cache: false,
+        success: function(html){        
+            $("#chatbox").html(html); //Insert chat log into the #chatbox div   
+             
+            //Auto-scroll           
+            var newscrollHeight = $("#chatbox")[0].scrollHeight - 20; //Scroll height after the request
+            if(newscrollHeight > oldscrollHeight){
+                $("#chatbox").animate({ scrollTop: newscrollHeight }, 'normal'); //Autoscroll to bottom of div
+            }               
+        },
+    });
+}
+</script><div class='msgln'><span class='left-info'>User <b class='user-name-left'></b> has left the chat session.</span><br></div><div class='msgln'><span class='chat-time'>7:36 AM</span> <b class='user-name'>Rebecca </b> hi<br></div><div class='msgln'><span class='chat-time'>7:36 AM</span> <b class='user-name'>Rebecca </b> How are you?<br></div>
